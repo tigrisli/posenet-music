@@ -4,6 +4,7 @@ import mido
 from mido import Message
 import time
 import threading
+import random
 
 # Open the MIDI port once
 port = mido.open_output(mido.get_output_names()[1])
