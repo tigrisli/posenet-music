@@ -29,9 +29,39 @@ def play_midi_notes(midi_note):
     threading.Thread(target=play_note).start()
 
 # Create a lock for thread-safe port access
-lock = threading.Lock()
+#lock = threading.Lock()
 
 # Example dynamic invocation based on some external triggers
+
+def play_drum_beats(midi_note):
+    """Plays a given drum beat note in a separate thread."""
+    def play_beat():
+        with lock:  # Locking only the sending of messages
+            # Channel 9 is used for percussion. Channels are 0-indexed, so we use 9-1=8.
+            port.send(Message('note_on', note=midi_note, velocity=64, channel=9))
+        time.sleep(1)  # Duration the note is held outside the lock
+        with lock:
+            port.send(Message('note_off', note=midi_note, velocity=64, channel=9))
+    
+    # Start a new thread each time the function is called
+    threading.Thread(target=play_beat).start()
+
+# Create a lock for thread-safe port access
+lock = threading.Lock()
+
+def play_midi_note_guitar(midi_note, channel=0, duration=0.5, velocity=64):
+    """Plays a given MIDI note on a specified channel."""
+    with lock:  # Ensure thread-safe access to the MIDI port
+        port.send(Message('note_on', note=midi_note, velocity=velocity, channel=channel))
+        time.sleep(duration)  # Duration the note is held; occurs within the thread
+        port.send(Message('note_off', note=midi_note, velocity=velocity, channel=channel))
+
+def play_random_guitar_note_threaded():
+    """Initiates playing a random guitar note in a separate thread to avoid blocking."""
+    guitar_channel = 0  # Set your MIDI channel for guitar
+    note = random.randint(40, 64)  # A typical range for guitar notes in MIDI
+    threading.Thread(target=play_midi_note_guitar, args=(note, guitar_channel, 0.5, 64)).start()
+
 
 
 def main():
