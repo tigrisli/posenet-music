@@ -95,17 +95,17 @@ def display_in_cv_image(image,poses):
           last_time=current_time          
           play_drum_beats(r)
         
-      if label.name == "LEFT_HIP" and keypoint.score > 0.1:
-        left_hip_current_x = int(keypoint.point.x) 
-        if left_hip_current_x > left_hip_previous_x+10:
-          left_hip_previous_x = left_hip_current_x 
-          last_time=current_time          
-          play_midi_notes(pr)        
+      #if label.name == "LEFT_HIP" and keypoint.score > 0.1:
+      #  left_hip_current_x = int(keypoint.point.x) 
+      #  if left_hip_current_x > left_hip_previous_x+10:
+      #    left_hip_previous_x = left_hip_current_x 
+      #    last_time=current_time          
+      #    play_midi_notes(pr)        
           
-        if left_hip_current_x < left_hip_previous_x-10:
-          left_hip_previous_x = left_hip_current_x 
-          left_last_time=left_current_time
-          play_midi_notes(pr)         
+      #  if left_hip_current_x < left_hip_previous_x-10:
+      #    left_hip_previous_x = left_hip_current_x 
+      #    left_last_time=left_current_time
+      #    play_midi_notes(pr)         
        
       if label.name == "LEFT_WRIST" and keypoint.score > 0.1:          
         left_wrist_current_x = int(keypoint.point.x) 
