@@ -6,6 +6,7 @@ import random
 import pygame
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+from pydub import AudioSegment
 
 # Open the MIDI port once
 
